@@ -5,4 +5,4 @@ drop sequence CATEGORY_SEQ;
 drop table CATEGORY;
 
 drop sequence PP_SEQ;
-drop table PRICINGPOLICY;
+drop table PRICING_POLICY;

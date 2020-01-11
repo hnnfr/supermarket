@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-@Table(name = "PRICINGPOLICY")
+@Table(name = "PRICING_POLICY")
 public class PricingPolicy {
     public static final String PP_BASIC = "BASIC";
     public static final String PP_2019_NOEL_REDUCTION = "2019_NOEL_REDUCTION";

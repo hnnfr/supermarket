@@ -23,7 +23,7 @@ public class Item {
     private BigDecimal price;
 
     @OneToOne
-    @JoinColumn(name = "PRICINGPOLICY_ID")
+    @JoinColumn(name = "PRICING_POLICY_ID")
     private PricingPolicy pricingPolicy;
 
     public Item() {

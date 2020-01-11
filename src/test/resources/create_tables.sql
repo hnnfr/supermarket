@@ -1,4 +1,4 @@
-create table PRICINGPOLICY (
+create table PRICING_POLICY (
                                ID int not null,
                                CODE varchar(256) not null unique,
                                NAME varchar(1000),
@@ -38,10 +38,10 @@ create table ITEM (
                       CATEGORY_ID int,
                       LABELS varchar(1000),
                       PRICE NUMERIC(18, 2),
-                      PRICINGPOLICY_ID int not null,
+                      PRICING_POLICY_ID int not null,
                       primary key (ID),
                       constraint FK_ITEM_CATEGORY foreign key (CATEGORY_ID) references CATEGORY(ID),
-                      constraint FK_ITEM_PRICINGPOLICY foreign key (PRICINGPOLICY_ID) references PRICINGPOLICY(ID)
+                      constraint FK_ITEM_PRICING_POLICY foreign key (PRICING_POLICY_ID) references PRICING_POLICY(ID)
 );
 
 create sequence ITEM_SEQ
