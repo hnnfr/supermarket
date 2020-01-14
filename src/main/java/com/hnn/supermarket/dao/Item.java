@@ -2,9 +2,7 @@ package com.hnn.supermarket.dao;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 public class Item {
