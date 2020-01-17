@@ -18,6 +18,8 @@ public class PricingService {
     private PricingPolicyRepository pricingPolicyRepository;
     @Autowired
     private ItemRepository itemRepository;
+    @Autowired
+    private PricingHistoryRepository pricingHistoryRepository; 
 
     public BigDecimal getPriceForItem(Item item, int volume) {
         return getRecalculatedPrice(item.getPricingPolicy(), item.getPrice(), volume);
@@ -49,11 +51,45 @@ public class PricingService {
     public void applyPricingPolicyOnItem(String policyCode, String itemCode) {
     	Item item = this.itemRepository.getItemByCode(itemCode);
     	if (item != null) {
-			PricingPolicy policy = this.pricingPolicyRepository.getPricingPolicyByCode(policyCode);
-			item.setPricingPolicy(policy);
-			item = itemRepository.save(item);
+    		if (!item.getPricingPolicy().getCode().equals(policyCode)) {
+    			// TODO: transaction here
+    			historisePricingPolicyForItem(item);
+    			PricingPolicy policy = this.pricingPolicyRepository.getPricingPolicyByCode(policyCode);
+    			item.setPricingPolicy(policy);
+    			item = itemRepository.save(item);
+			} else {
+				// TODO: try to apply the same PricingPolicy on item, audit 
+			}
 		} else {
 			// TODO: audit here - item not found
 		}
     }
+    
+    /**
+     * This method deletes the actual PricingPolicy for the given item (represented by itemCode).
+     * That means the item will be assigned with basic PricingPolicy (if it is not already the case).  
+     *  
+     * @param itemCode
+     */
+    public void dropPricingPolicyOnItem(String itemCode) {
+    	Item item = this.itemRepository.getItemByCode(itemCode);
+    	if (item != null) {
+    		if (!item.getPricingPolicy().getCode().equals(PricingPolicy.PP_BASIC)) {
+    			// TODO: transaction here
+    			historisePricingPolicyForItem(item);
+    			PricingPolicy basicPricingPolicy = this.pricingPolicyRepository.getPricingPolicyByCode(PricingPolicy.PP_BASIC); 
+				item.setPricingPolicy(basicPricingPolicy);
+				itemRepository.save(item); 
+			} else {
+				// TODO: audit here - item already had the basic PricingPolicy
+			}
+		} else {
+			// TODO: audit here - item not found
+		}
+	}
+    
+    private void historisePricingPolicyForItem(Item item) {
+		PricingHistory pricingHistory = new PricingHistory(item, item.getPricingPolicy()); 
+		this.pricingHistoryRepository.save(pricingHistory); 
+	}
 }

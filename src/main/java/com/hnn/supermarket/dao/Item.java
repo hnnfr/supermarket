@@ -3,6 +3,7 @@ package com.hnn.supermarket.dao;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Item {
@@ -23,6 +24,9 @@ public class Item {
     @OneToOne
     @JoinColumn(name = "PRICING_POLICY_ID")
     private PricingPolicy pricingPolicy;
+    
+    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<PricingHistory> pricingHistories; 
 
     public Item() {
     }
@@ -126,7 +130,15 @@ public class Item {
         return !getPricingPolicy().getCode().equals(PricingPolicy.PP_BASIC);
     }
 
-    @Override
+    public Set<PricingHistory> getPricingHistories() {
+		return pricingHistories;
+	}
+
+	public void setPricingHistories(Set<PricingHistory> pricingHistories) {
+		this.pricingHistories = pricingHistories;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -135,12 +147,12 @@ public class Item {
                 Objects.equals(code, item.code) &&
                 Objects.equals(name, item.name) &&
                 Objects.equals(labels, item.labels) &&
-                Objects.equals(price, item.price);
+                price.compareTo(item.price) == 0;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, code, name, labels, price);
+        return Objects.hash(id, code, name, labels);
     }
 
     @Override

@@ -1,3 +1,6 @@
+drop sequence PH_SEQ;
+drop table PRICING_HISTORY;
+
 drop sequence ITEM_SEQ;
 drop table ITEM;
 

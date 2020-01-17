@@ -27,7 +27,7 @@ public class Category {
     private String name;
     private String description;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     private Set<Item> items;
 
     public Category() {
@@ -80,11 +80,15 @@ public class Category {
     }
 
     public void setItems(Set<Item> items) {
+        if (items != null) {
+            items.stream().forEach(i -> i.setCategory(this));
+        }
         this.items = items;
     }
 
     public void addItem(Item item) {
         if (items == null) items = new HashSet<>();
+        item.setCategory(this);
         items.add(item);
     }
 

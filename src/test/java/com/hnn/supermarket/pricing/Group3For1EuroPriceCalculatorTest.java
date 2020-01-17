@@ -6,22 +6,21 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collection;
 
-import com.hnn.supermarket.SupermarketApplication;
-import com.hnn.supermarket.dao.PricingPolicyRepository;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-
-import com.hnn.supermarket.dao.PricingPolicy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.junit4.rules.SpringClassRule;
 import org.springframework.test.context.junit4.rules.SpringMethodRule;
+
+import com.hnn.supermarket.SupermarketApplication;
+import com.hnn.supermarket.dao.PricingPolicy;
+import com.hnn.supermarket.dao.PricingPolicyRepository;
 
 @RunWith(Parameterized.class)
 @SpringBootTest(classes = SupermarketApplication.class)

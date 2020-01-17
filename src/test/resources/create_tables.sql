@@ -49,3 +49,20 @@ create sequence ITEM_SEQ
     increment by 1
     maxvalue 99999
     cycle;
+	
+
+create table PRICING_HISTORY (
+					ID int not null,
+					ITEM_ID int not null, 
+					PRICING_POLICY_ID int not null, 
+					CREATION_DATE DATE,
+					primary key (ID), 
+					constraint FK_P_HISTORY_ITEM foreign key (ITEM_ID) references ITEM(ID), 
+					constraint FK_P_HISTORY_PP foreign key (PRICING_POLICY_ID) references PRICING_POLICY(ID)
+);
+
+create sequence PH_SEQ
+    start with 1
+    increment by 1
+    maxvalue 99999
+    cycle;
