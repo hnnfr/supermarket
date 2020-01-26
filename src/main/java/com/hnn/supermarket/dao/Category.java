@@ -80,7 +80,7 @@ public class Category {
     }
 
     public void setItems(Set<Item> items) {
-        if (items != null) {
+        if (items != null && items.size() > 0) {
             items.stream().forEach(i -> i.setCategory(this));
         }
         this.items = items;

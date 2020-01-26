@@ -1,7 +1,10 @@
 package com.hnn.supermarket.dao;
 
+import org.springframework.data.jpa.repository.Query;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -21,7 +24,7 @@ public class Item {
     private String labels;
     private BigDecimal price;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "PRICING_POLICY_ID")
     private PricingPolicy pricingPolicy;
     
@@ -135,8 +138,18 @@ public class Item {
 	}
 
 	public void setPricingHistories(Set<PricingHistory> pricingHistories) {
+        if (pricingHistories != null) {
+            pricingHistories.stream().forEach(ph -> ph.setItem(this));
+        }
 		this.pricingHistories = pricingHistories;
 	}
+
+	public void addPricingHistory(PricingHistory pricingHistory) {
+        if (this.pricingHistories == null) {
+            this.pricingHistories = new HashSet<>();
+        }
+        pricingHistories.add(pricingHistory);
+    }
 
 	@Override
     public boolean equals(Object o) {

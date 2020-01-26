@@ -1,0 +1,14 @@
+[26/01/2020]
+Problem 1:
+CategoryTest.testAddItem()
+When add an Item into a Category, in the method Category.addItem(Item), there should be a call to item.setCategory(this).
+Without this call explicit, the adding of Item and saving of Item and Category seem not working well (as if there is
+no way to flush the change into the database).
+
+Problem 2:
+LazyFetch
+When using lazy fetching (fetch = FetchType.LAZY) with Item.pricingHistories, we should have methods that do not
+load the collection property (pricingHistories) - default method of JPA or methods without specifying loading request
+for fetching the properties (like Item getItemByCode(String code); of ItemRepository). And we should also have
+methods that explicitly load the collection property with @Query (like Item getItemWithPricingHistories(String code);
+of ItemRepository)

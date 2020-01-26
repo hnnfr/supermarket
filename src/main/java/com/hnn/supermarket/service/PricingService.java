@@ -49,14 +49,15 @@ public class PricingService {
 	}
     
     public void applyPricingPolicyOnItem(String policyCode, String itemCode) {
-    	Item item = this.itemRepository.getItemByCode(itemCode);
+    	Item item = this.itemRepository.getItemWithPricingHistories(itemCode);
     	if (item != null) {
     		if (!item.getPricingPolicy().getCode().equals(policyCode)) {
     			// TODO: transaction here
     			historisePricingPolicyForItem(item);
-    			PricingPolicy policy = this.pricingPolicyRepository.getPricingPolicyByCode(policyCode);
+    			PricingPolicy policy = this.pricingPolicyRepository.getPricingPolicyWithItems(policyCode);
     			item.setPricingPolicy(policy);
     			item = itemRepository.save(item);
+    			policy = pricingPolicyRepository.save(policy);
 			} else {
 				// TODO: try to apply the same PricingPolicy on item, audit 
 			}

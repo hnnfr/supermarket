@@ -17,7 +17,7 @@ public class PricingHistory {
     @JoinColumn(name = "ITEM_ID")
     private Item item; 
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "PRICING_POLICY_ID")
     private PricingPolicy pricingPolicy;
 
@@ -28,9 +28,10 @@ public class PricingHistory {
     }
 
     public PricingHistory(Item item, PricingPolicy pricingPolicy) {
-    	this.item = item; 
+    	this.item = item;
     	this.pricingPolicy = pricingPolicy; 
-    	this.creationDate = LocalDate.now(); 
+    	this.creationDate = LocalDate.now();
+    	item.addPricingHistory(this);
     }
 
     public Long getId() {
@@ -47,6 +48,23 @@ public class PricingHistory {
 
     public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
+        item.addPricingHistory(this);
+    }
+
+    public PricingPolicy getPricingPolicy() {
+        return pricingPolicy;
+    }
+
+    public void setPricingPolicy(PricingPolicy pricingPolicy) {
+        this.pricingPolicy = pricingPolicy;
     }
 
     @Override

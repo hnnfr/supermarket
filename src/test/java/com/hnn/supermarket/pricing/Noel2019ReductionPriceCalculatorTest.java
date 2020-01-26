@@ -30,10 +30,12 @@ public class Noel2019ReductionPriceCalculatorTest {
 		IPriceCalculator calculator = PriceCalculatorFactory.getPriceCalculator(PricingPolicy.PP_2019_NOEL_REDUCTION, pricingPolicyRepository);
 		BigDecimal basicPrice = new BigDecimal("3.5");
 		int volume = 3; 
-		BigDecimal expected = new BigDecimal("8.4"); 
+		//BigDecimal expected = new BigDecimal("8.4");
+		BigDecimal expected = new BigDecimal("10.5");
 		BigDecimal price = calculator.calculatePrice(basicPrice, volume);
 		double epsilon = 0.00001;
-		assertEquals("expected price should equal to 80% basicPrice multiplies by volume", expected.doubleValue(), price.doubleValue(), epsilon);
+		//assertEquals("expected price should equal to 80% basicPrice multiplies by volume", expected.doubleValue(), price.doubleValue(), epsilon);
+		assertEquals("PricingPolicy is expired. Should have no recalculation of price", expected.doubleValue(), price.doubleValue(), epsilon);
 	}
 
 }

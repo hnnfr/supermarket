@@ -2,7 +2,9 @@ package com.hnn.supermarket.dao;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "PRICING_POLICY")
@@ -30,6 +32,9 @@ public class PricingPolicy {
     private LocalDate appliedStartDate;
     @Column(name = "APPLIED_END_DATE")
     private LocalDate appliedEndDate;
+
+    @OneToMany(mappedBy = "pricingPolicy", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    private Set<Item> items;
 
     public PricingPolicy() {
     }
@@ -101,6 +106,22 @@ public class PricingPolicy {
 
     public void setAppliedEndDate(LocalDate appliedEndDate) {
         this.appliedEndDate = appliedEndDate;
+    }
+
+    public Set<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(Set<Item> items) {
+        this.items = items;
+        if (items != null && items.size() > 0)
+            items.stream().forEach(i -> i.setPricingPolicy(this));
+    }
+
+    public void addItem(Item item) {
+        if (items == null) items = new HashSet<>();
+        items.add(item);
+        item.setPricingPolicy(this);
     }
 
     @Override
